@@ -44,6 +44,7 @@ void	coordinate_calculation(t_point **points, t_map *map)
 		{
 			points[y][x].x_3d = x * SCALE;
 			points[y][x].y_3d = y * SCALE;
+			points[y][x].base_z = map->value[y][x] * SCALE;
 			points[y][x].z_3d = map->value[y][x] * SCALE;
 			x++;
 		}

@@ -47,3 +47,29 @@ void	convert_2d(t_point **points, t_map *map, float angle)
 		y++;
 	}
 }
+
+void update_and_project(t_point **pts, t_map *map, t_motion *mot, float angle)
+{
+    double t = glfwGetTime();
+    float cosA = cosf(angle);
+    float sinA = sinf(angle);
+
+    for (int y = 0; y < map->height; y++) {
+        for (int x = 0; x < map->width; x++) {
+            int id = y * map->width + x;
+
+            // z を揺らす
+            float dz = sinf(t * mot->freq[id] + mot->phase[id]) * mot->amp[id];
+            pts[y][x].z_3d = pts[y][x].base_z + dz;
+
+            // 等角投影でスクリーン座標を更新
+            float iso_x = (pts[y][x].x_3d - pts[y][x].y_3d) * cosA;
+            float iso_y = (pts[y][x].x_3d + pts[y][x].y_3d) * sinA - pts[y][x].z_3d;
+
+            pts[y][x].sx = iso_x;
+            pts[y][x].sy = iso_y;
+        }
+    }
+}
+
+

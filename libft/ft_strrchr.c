@@ -3,31 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fhoshina <fhoshina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rkaga     <k222ryousuke@gmail.com   >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/22 22:18:30 by fhoshina          #+#    #+#             */
-/*   Updated: 2024/10/25 23:35:44 by fhoshina         ###   ########.fr       */
+/*   Created: 2024/10/23 20:51:04 by rkaga             #+#    #+#             */
+/*   Updated: 2024/10/23 20:51:04 by rkaga            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
 char	*ft_strrchr(const char *s, int c)
 {
-	char	*p;
-	char	cast;
-	char	*sub;
+	char	*found;
 
-	p = NULL;
-	cast = (char)c;
-	sub = (char *)s;
-	while (*sub)
+	found = 0;
+	while (*s)
 	{
-		if (*sub == cast)
-			p = sub;
-		sub++;
+		if (*s == (char)c)
+			found = (char *)s;
+		s++;
 	}
-	if (c == '\0')
-		return (sub);
-	return (p);
+	if ((char)c == 0)
+		return ((char *)s);
+	return (found);
 }

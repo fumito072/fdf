@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fhoshina <fhoshina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rkaga     <k222ryousuke@gmail.com   >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/22 23:49:56 by fhoshina          #+#    #+#             */
-/*   Updated: 2024/10/30 21:22:06 by fhoshina         ###   ########.fr       */
+/*   Created: 2024/10/22 19:37:16 by rkaga             #+#    #+#             */
+/*   Updated: 2024/10/23 12:06:56 by rkaga            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,23 @@
 
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	size_t	i;
-	size_t	j;
+	size_t	k;
+	size_t	llen;
 
-	if (!*little)
+	llen = ft_strlen(little);
+	if (big == NULL && len == 0)
+		return (NULL);
+	if (llen == 0)
 		return ((char *)big);
-	i = 0;
-	while (i < len && big[i])
+	while (*big && len > 0)
 	{
-		if (big[i] == little[0])
-		{
-			j = 0;
-			while (i + j < len && big[i + j] == little[j])
-			{
-				j++;
-				if (!little[j])
-					return ((char *)&big[i]);
-			}
-		}
-		i++;
+		k = 0;
+		while (len - k > 0 && k < llen && *(big + k) == little[k])
+			k++;
+		if (k == llen)
+			return ((char *)(big));
+		big++;
+		len--;
 	}
-	return (NULL);
+	return (0);
 }
-
-// int main()
-// {
-// 	char haystack[30] = "aaabcabcd";
-// 	char needle[10] = "aabc";
-// 	char * empty = (char*)"";
-// 	ft_strnstr(haystack, needle, 10);
-// 	ft_strnstr(empty, "", -1);
-// 	ft_strnstr(empty, "", 0);
-// }

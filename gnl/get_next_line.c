@@ -59,7 +59,7 @@ char	*get_buffer(int fd, char *buffer)
 	found = NULL;
 	while (found == NULL)
 	{
-		found = ft_strchr(b_tail, '\n');
+		found = ft_strch(b_tail, '\n');
 		if (found)
 			return (found_func(found, line, &b_tail));
 		if (*b_tail != '\0')

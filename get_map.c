@@ -14,19 +14,24 @@
 
 int	count_word(char *line, char c)
 {
-	int	i;
-	int	count;
+	int	i = 0;
+	int	count = 0;
+	int	in_word = 0;
 
-	i = 0;
-	count = 1;
 	while (line[i])
 	{
-		if (line[i] == c)
+		if (line[i] != c && !in_word)
+		{
+			in_word = 1;
 			count++;
+		}
+		else if (line[i] == c)
+			in_word = 0;
 		i++;
 	}
 	return (count);
 }
+
 
 void	get_map_size(char *filename, t_map *map)
 {

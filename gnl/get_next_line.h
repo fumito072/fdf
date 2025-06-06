@@ -23,7 +23,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-char	*ft_strchr(const char *s, int c);
+char	*ft_strch(const char *s, int c);
 size_t	ft_strlen(const char *s);
 char	*get_next_line(int fd);
 char	*get_buffer(int fd, char *buffer);

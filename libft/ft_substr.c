@@ -3,39 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fhoshina <fhoshina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rkaga     <k222ryousuke@gmail.com   >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 14:59:19 by fhoshina          #+#    #+#             */
-/*   Updated: 2024/11/03 19:06:27 by fhoshina         ###   ########.fr       */
+/*   Created: 2024/10/22 19:57:07 by rkaga             #+#    #+#             */
+/*   Updated: 2024/10/26 17:55:27 by rkaga            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*str;
-	char	*sub;
-	size_t	s_len;
+	char	*dest;
+	size_t	i;
+	size_t	slen;
 
-	sub = (char *)s;
-	if (!s)
+	i = 0;
+	slen = ft_strlen(s);
+	if (start > slen)
+		return (ft_strdup(""));
+	if (slen - start < len)
+		dest = (char *)malloc((slen - start + 1) * sizeof(char));
+	else
+		dest = (char *)malloc((len + 1) * sizeof(char));
+	if (dest == NULL)
 		return (NULL);
-	s_len = ft_strlen(sub);
-	if (start >= s_len)
+	while (i < len && start + i < slen && s[start + i])
 	{
-		str = malloc(1);
-		if (!str)
-			return (NULL);
-		str[0] = '\0';
-		return (str);
+		dest[i] = s[start + i];
+		i++;
 	}
-	if (len > s_len - start)
-		len = s_len - start;
-	str = malloc(len + 1);
-	if (!str)
-		return (NULL);
-	ft_memcpy(str, s + start, len);
-	str[len] = '\0';
-	return (str);
+	dest[i] = '\0';
+	return (dest);
 }

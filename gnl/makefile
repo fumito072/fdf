@@ -8,7 +8,7 @@ OBJ = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	ar rcs $(NAME) $(OBJ)
+	/usr/bin/libtool -static -o $(NAME) $(OBJ)
 
 clean:
 	rm -f $(OBJ)

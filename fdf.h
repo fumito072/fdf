@@ -12,14 +12,17 @@
 
 #ifndef FDF_H
 # define FDF_H
-# define WINDOW_WIDTH 1920
-# define WINDOW_HEIGHT 1080
+
+# define WINDOW_WIDTH 800
+# define WINDOW_HEIGHT 600
 # define SCALE 20
+# define GL_SILENCE_DEPRECATION
 
 # include "gnl/get_next_line.h"
 # include "libft/libft.h"
-# include "minilibx-linux/mlx.h"
 # include "printf/ft_printf.h"
+
+# include <GLFW/glfw3.h>
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
@@ -31,7 +34,8 @@ typedef struct s_point
 	float	x_3d;
 	float	y_3d;
 	float	z_3d;
-	int		color;
+	float sx, sy;  
+	float base_z;
 }			t_point;
 
 typedef struct s_map
@@ -41,14 +45,12 @@ typedef struct s_map
 	int		**value;
 }			t_map;
 
-typedef struct s_data
-{
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}			t_data;
+typedef struct s_motion {
+    float *freq;
+    float *phase;
+    float *amp;
+} t_motion;
+
 
 char		*get_next_line(int fd);
 void		get_map_size(char *filename, t_map *map);
@@ -56,9 +58,13 @@ void		map_analysis(char *filename, t_map *map);
 void		convert_2d(t_point **points, t_map *map, float angle);
 void		coordinate_calculation(t_point **points, t_map *map);
 t_point		**three_dimensional_points(t_map *map);
-void		draw_map(t_data *img, t_point **points, t_map *map);
+void		draw_map_gl(t_point **points, t_map *map);
+void		center_map(t_point **points, t_map *map);
 int			get_color(t_point p);
-// void		free_map(t_map *map);
-// void		free_points(t_point **points, int height);
+void		free_map(t_map *map);
+void		free_points(t_point **points, int height);
+void		render_scene(t_point **points, t_map *map, t_motion *motion, GLFWwindow *window);
+t_motion	*init_motion(t_point **points, t_map *map);
+void		update_and_project(t_point **pts, t_map *map, t_motion *mot, float angle);
 
 #endif

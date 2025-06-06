@@ -3,24 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fhoshina <fhoshina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rkaga     <k222ryousuke@gmail.com   >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 13:29:30 by fhoshina          #+#    #+#             */
-/*   Updated: 2024/10/31 17:19:24 by fhoshina         ###   ########.fr       */
+/*   Created: 2024/10/22 17:13:27 by rkaga             #+#    #+#             */
+/*   Updated: 2024/10/23 12:06:56 by rkaga            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
 char	*ft_strchr(const char *s, int c)
 {
-	while (*s)
-	{
-		if ((char)*s == (char)c)
-			return ((char *)s);
+	while (*s != (char)c && *s)
 		s++;
-	}
-	if (c == '\0')
-		return ((char *)s);
-	return (NULL);
+	if (*s == (char)c)
+		return ((char *)(s));
+	return (0);
 }

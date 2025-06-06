@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fhoshina <fhoshina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rkaga     <k222ryousuke@gmail.com   >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 14:34:37 by fhoshina          #+#    #+#             */
-/*   Updated: 2024/10/29 10:15:53 by fhoshina         ###   ########.fr       */
+/*   Created: 2024/10/23 11:53:09 by rkaga             #+#    #+#             */
+/*   Updated: 2024/10/23 12:06:56 by rkaga            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,10 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
 	unsigned int	i;
 
-	if (!s || !f)
-		return ;
 	i = 0;
 	while (s[i])
 	{
-		f(i, &s[i]);
+		f(i, s + i);
 		i++;
 	}
 }
-
-// void	to_upper(unsigned int i, char *c)
-// {
-// 	if (*c >= 'a' && *c <= 'z')
-// 		*c = *c - 32;
-// }
-
-// int	main(void)
-// {
-// 	char str[] = "hello world";
-
-// 	ft_striteri(str, to_upper);
-// 	printf("%s", str);
-// }

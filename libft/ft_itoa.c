@@ -3,83 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fhoshina <fhoshina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rkaga     <k222ryousuke@gmail.com   >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 18:16:52 by fhoshina          #+#    #+#             */
-/*   Updated: 2024/10/29 18:03:05 by fhoshina         ###   ########.fr       */
+/*   Created: 2024/10/23 11:43:49 by rkaga             #+#    #+#             */
+/*   Updated: 2024/10/28 14:40:59 by rkaga            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	ft_size(int n)
+static int	get_digits(int n, int num)
 {
-	int	cnt;
-
-	cnt = 0;
-	if (n < 0)
-		cnt++;
-	while (n != 0)
-	{
-		n /= 10;
-		cnt++;
-	}
-	return (cnt);
+	if (n == 0)
+		return (num);
+	return (get_digits(n / 10, num + 1));
 }
 
-static char	*roop(int n, char *num)
+static void	set_digits(long n, int digits, char *out)
 {
-	num--;
-	while (n != 0)
+	if (digits > 0)
 	{
-		*num = '0' + (n % 10);
-		n /= 10;
-		num--;
+		out[digits - 1] = n % 10 + '0';
+		set_digits(n / 10, digits - 1, out);
 	}
-	return (num);
 }
 
 char	*ft_itoa(int n)
 {
-	char	*number;
-	int		len;
+	int		digits;
+	char	*s;
 
+	digits = get_digits(n, 0);
 	if (n == 0)
 		return (ft_strdup("0"));
-	if (n == -2147483648)
+	else if (n == -2147483648)
 		return (ft_strdup("-2147483648"));
-	len = ft_size(n);
-	number = (char *)malloc(sizeof(char) * len + 1);
-	if (!number)
-		return (NULL);
-	if (n > 0 && number)
+	if (n < 0)
 	{
-		number = roop(n, number + len);
-		number += 1;
+		s = (char *)ft_calloc(digits + 2, sizeof(char));
+		if (s == NULL)
+			return (NULL);
+		s[0] = '-';
+		set_digits(n * -1, digits, s + 1);
 	}
 	else
 	{
-		n *= -1;
-		number = roop(n, number + len);
-		*number = '-';
+		s = (char *)ft_calloc(digits + 1, sizeof(char));
+		if (s == NULL)
+			return (NULL);
+		set_digits(n, digits, s);
 	}
-	number[len] = '\0';
-	return (number);
+	return (s);
 }
-
-// int	main(void)
-// {
-// 	char *str;
-// 	str = ft_itoa(192843);
-// 	printf("%s", str);
-// 	free(str);
-// 	str = ft_itoa(0);
-// 	printf("%s", str);
-// 	free(str);
-// 	str = ft_itoa(2147483647);
-// 	printf("%s", str);
-// 	free(str);
-// 	str = ft_itoa(-2147483648);
-// 	printf("%s", str);
-// 	free(str);
-// }

@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fhoshina <fhoshina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rkaga     <k222ryousuke@gmail.com   >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 16:00:43 by fhoshina          #+#    #+#             */
-/*   Updated: 2024/10/30 20:52:36 by fhoshina         ###   ########.fr       */
+/*   Created: 2024/10/23 11:55:56 by rkaga             #+#    #+#             */
+/*   Updated: 2024/10/23 12:06:56 by rkaga            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-// void	ft_putchar_fd(char c, int fd)
-// {
-// 	write(fd, &c, 1);
-// }
 
 void	ft_putstr_fd(char *s, int fd)
 {

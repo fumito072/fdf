@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fhoshina <fhoshina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rkaga     <k222ryousuke@gmail.com   >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 13:29:36 by fhoshina          #+#    #+#             */
-/*   Updated: 2024/11/05 20:47:05 by fhoshina         ###   ########.fr       */
+/*   Created: 2024/10/22 17:04:16 by rkaga             #+#    #+#             */
+/*   Updated: 2024/10/23 12:06:56 by rkaga            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,19 @@
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	size_t	i;
-	size_t	j;
+	size_t	srclen;
 
-	i = 0;
-	while (src[i])
-	{
-		i++;
-	}
+	srclen = ft_strlen(src);
 	if (size == 0)
+		return (srclen);
+	if (srclen + 1 <= size)
 	{
-		return (i);
+		ft_memcpy(dst, src, srclen + 1);
 	}
-	j = 0;
-	while (j < (size - 1) && src[j] != '\0')
+	else
 	{
-		dst[j] = src[j];
-		j++;
+		ft_memcpy(dst, src, size - 1);
+		dst[size - 1] = 0;
 	}
-	dst[j] = '\0';
-	return (i);
+	return (srclen);
 }
-
-// int main(void)
-// {
-// 	char	src[] = "Hello, world!";
-// 	char	dst[20];
-// 	size_t	len;
-
-// 	len = ft_strlcpy(dst, src, 20);
-// 	printf("src: %s\n", src);
-// 	printf("dst: %s\n", dst);
-// 	printf("Returned length: %zu\n\n", len);
-
-// 	len = ft_strlcpy(dst, src, 0);
-// 	printf("src: %s\n", src);
-// 	printf("dst (size 0): %s\n", dst);
-// 	printf("Returned length: %zu\n\n", len);
-
-// 	return 0;
-// }

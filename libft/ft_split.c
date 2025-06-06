@@ -3,120 +3,111 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fhoshina <fhoshina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ryousukekaga <ryousukekaga@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 15:45:24 by fhoshina          #+#    #+#             */
-/*   Updated: 2024/10/31 22:12:14 by fhoshina         ###   ########.fr       */
+/*   Created: 2024/10/22 20:14:45 by rkaga             #+#    #+#             */
+/*   Updated: 2025/05/19 16:36:23 by ryousukekag      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	count_word(char const *s, char c)
+static size_t	get_words(char const *s, char c)
 {
-	size_t	count;
+	size_t	n;
+	size_t	k;
 
-	if (!*s)
-		return (0);
-	count = 0;
+	n = 0;
 	while (*s)
 	{
-		while (*s == c)
+		while (*s && *s == c)
 			s++;
-		if (*s)
-			count++;
-		while (*s != c && *s)
+		k = 0;
+		while (*s && *s != c)
+		{
+			k++;
 			s++;
+		}
+		if (k == 0)
+			continue ;
+		n++;
 	}
-	return (count);
+	return (n);
 }
 
-static char	*connect_word(char const *s, size_t start, size_t end)
+static int	skip_split(char **s, char c)
 {
-	int		i;
-	size_t	len;
-	size_t	last_len;
-	char	*words;
+	size_t	k;
+	char	*s_;
 
-	len = end - start;
-	last_len = len;
-	words = malloc(len + 1);
-	if (!words)
-		return (NULL);
+	s_ = *s;
+	k = 0;
+	while (*s_ && *s_ == c)
+		s_++;
+	while (*s_ && *s_ != c)
+	{
+		k++;
+		s_++;
+	}
+	*s = s_;
+	return (k);
+}
+
+void	*free_split(char **split, size_t num)
+{
+	char	*head;
+	char	*t;
+	size_t	i;
+
+	head = *split;
 	i = 0;
-	while (len > 0 && *s)
+	while (i < num)
 	{
-		words[i++] = s[start++];
-		len--;
+		t = head + 1;
+		free(head);
+		head = t;
 	}
-	words[last_len] = '\0';
-	return (words);
+	free(split);
+	return (NULL);
 }
 
-static void	end_point(char const *s, size_t *start, size_t *end, char c)
+void	ft_freesplit(char **strs)
 {
-	while (s[*start] == c && s[*start])
-		(*start)++;
-	*end = *start;
-	while (s[*end] != c && s[*end])
-		(*end)++;
-}
+	char	**head;
+	char	**t;
 
-static void	free_func(char **lst, size_t i)
-{
-	while (i > 0)
+	head = strs;
+	while (*head)
 	{
-		free(lst[i - 1]);
-		i--;
+		t = head + 1;
+		free(*head);
+		head = t;
 	}
-	free(lst);
+	free(strs);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**lst;
+	char	**split;
 	size_t	i;
-	size_t	start;
-	size_t	end;
+	size_t	num;
+	size_t	k;
 
-	lst = (char **)malloc((count_word(s, c) + 1) * sizeof(char *));
-	if (!s || !lst)
-		return (0);
+	if (s == NULL)
+		return (NULL);
 	i = 0;
-	start = 0;
-	end = 0;
-	while (i < count_word(s, c))
+	num = get_words(s, c);
+	split = ft_calloc(num + 1, sizeof(char *));
+	if (split == NULL)
+		return (NULL);
+	while (i++ < num && *s)
 	{
-		end_point(s, &start, &end, c);
-		lst[i] = connect_word(s, start, end);
-		if (!lst[i])
-		{
-			free_func(lst, i);
-			return (NULL);
-		}
-		i++;
-		start = end;
+		k = skip_split((char **)&s, c);
+		if (k == 0)
+			continue ;
+		split[i - 1] = ft_substr(s - k, 0, k);
+		if (split[i - 1] == NULL)
+			return (free_split(split, i - 1));
 	}
-	lst[i] = NULL;
-	return (lst);
+	return (split);
 }
-
-// int main(void)
-// {
-//     char **result;
-//     const char *str = "lorem ipsum dolor sit amet, consectetur mi.";
-//     char c = 'i';
-//     int i;
-
-//     result = ft_split(str, c);
-//     i = 0;
-//     while (result[i] != NULL)
-//     {
-//         printf("%d: %s\n", i + 1, result[i]);
-//         free(result[i]);
-//         i++;
-//     }
-
-//     free(result);
-//     return (0);
-// }

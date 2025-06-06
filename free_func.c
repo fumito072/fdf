@@ -35,5 +35,5 @@ void free_points(t_point **points, int height)
 		free(points[i]);
 		i++;
 	}
-	fre(points);
+	free(points);
 }

@@ -3,50 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fhoshina <fhoshina@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rkaga     <k222ryousuke@gmail.com   >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 15:15:23 by fhoshina          #+#    #+#             */
-/*   Updated: 2024/10/31 22:15:43 by fhoshina         ###   ########.fr       */
+/*   Created: 2024/10/22 20:06:23 by rkaga             #+#    #+#             */
+/*   Updated: 2024/10/23 12:06:56 by rkaga            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*triming(char *trim, char const *s1, size_t start, int len)
+static char	find(char const c, char const *set)
 {
-	int	i;
-
-	i = 0;
-	while (i < len)
+	while (*set)
 	{
-		trim[i] = s1[start + i];
-		i++;
+		if (c == *set)
+			return (1);
+		set++;
 	}
-	trim[i] = '\0';
-	return (trim);
+	return (0);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	size_t	start;
-	size_t	end;
-	int		len;
-	char	*se;
-	char	*trim;
+	size_t	len;
+	size_t	num;
+	char	*last;
 
-	len = ft_strlen((char *)s1);
-	se = (char *)set;
-	start = 0;
-	while (s1[start] && ft_strchr(se, s1[start]))
-		start++;
-	end = len;
-	while (end > start && ft_strchr(se, s1[end - 1]))
-		end--;
-	trim = (char *)malloc(end - start + 1);
-	if (!trim)
+	num = 0;
+	len = ft_strlen(s1);
+	last = (char *)&s1[len - 1];
+	if (ft_strlen(set) == 0)
+		return (ft_strdup(s1));
+	while (find(*s1, set) && len - num > 0)
+	{
+		num++;
+		s1++;
+	}
+	while (find(*last--, set) && len - num > 0)
+		num++;
+	if (len - num <= 0)
+		return (ft_strdup(""));
+	last = ft_calloc(len - num + 1, sizeof(char));
+	if (last == NULL)
 		return (NULL);
-	if (start > end)
-		return (NULL);
-	trim = triming(trim, s1, start, end - start);
-	return (trim);
+	ft_memcpy(last, s1, len - num);
+	return (last);
 }
