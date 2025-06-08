@@ -58,7 +58,7 @@ void update_and_project(t_point **pts, t_map *map, t_motion *mot, float angle)
         for (int x = 0; x < map->width; x++) {
             int id = y * map->width + x;
 
-            // z を揺らす
+
             float dz = sinf(t * mot->freq[id] + mot->phase[id]) * mot->amp[id];
             pts[y][x].z_3d = pts[y][x].base_z + dz;
 

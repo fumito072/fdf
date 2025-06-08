@@ -32,9 +32,9 @@ void calc_center_offset(t_point **pts, t_map *m, float *off_x, float *off_y)
     *off_y = WINDOW_HEIGHT * 0.5f - center_y;
 }
 
-void render_scene(t_point **points, t_map *map, t_motion *motion, GLFWwindow *window){
-	float angle = M_PI / 6;  // 30度の等角投影
-
+void render_scene(t_point **points, t_map *map, t_motion *motion, t_camera *camera, GLFWwindow *window)
+{
+    float angle = M_PI / 6;
     update_and_project(points, map, motion, angle);
 
     glClear(GL_COLOR_BUFFER_BIT);
@@ -47,6 +47,7 @@ void render_scene(t_point **points, t_map *map, t_motion *motion, GLFWwindow *wi
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    glTranslatef(camera->offset_x, camera->offset_y, 0);
 
     draw_map_gl(points, map);
     glfwSwapBuffers(window);
@@ -59,6 +60,7 @@ int	main(int argc, char **argv)
 		t_point **points;
 		float angle = M_PI / 3;
 		t_motion *motion;
+		t_camera camera = {0.0f, 0.0f};
 
 		map_analysis(argv[1], &map);
 		points = three_dimensional_points(&map);
@@ -71,17 +73,18 @@ int	main(int argc, char **argv)
 		float *phase = malloc(sizeof(float) * total);
 		float *amp   = malloc(sizeof(float) * total);
 
-		for (int y = 0; y < map.height; y++)
-		for (int x = 0; x < map.width;  x++)
-		{
-			int id = y * map.width + x;
+		for (int y = 0; y < map.height; y++){
+			for (int x = 0; x < map.width;  x++)
+			{
+				int id = y * map.width + x;
 
-			/* 固定パラメータを乱数で決定 */
-			freq[id]  = 0.5f + ((float)rand() / RAND_MAX) * 3.0f;         // 0.5〜3.5 Hz
-			phase[id] = ((float)rand() / RAND_MAX) * M_PI * 2.0f;          // 0〜2π
-			amp[id]   = points[y][x].z_3d * 0.6f;                          // 元高さの 60%
-			/* base_z を保持 (新フィールドを使う場合) */
-			points[y][x].base_z = points[y][x].z_3d;
+				/* 固定パラメータを乱数で決定 */
+				freq[id]  = 20.0f + ((float)rand() / RAND_MAX) * 40.0f;         // 0.5〜3.5 Hz
+				phase[id] = ((float)rand() / RAND_MAX) * M_PI * 20.0f;          // 0〜2π
+				amp[id]   = points[y][x].z_3d * 0.6f;                          // 元高さの 60%
+				/* base_z を保持 (新フィールドを使う場合) */
+				points[y][x].base_z = points[y][x].z_3d;
+			}
 		}
 
 		if (!glfwInit()) {
@@ -96,9 +99,11 @@ int	main(int argc, char **argv)
 		}
 		glfwMakeContextCurrent(window);
 		glfwSwapInterval(1);
+		glfwSetWindowUserPointer(window, &camera);
+		glfwSetKeyCallback(window, key_callback);
 
 		while (!glfwWindowShouldClose(window)) {
-			render_scene(points, &map, motion, window);
+			render_scene(points, &map, motion, &camera, window);
 			glfwSwapBuffers(window);
 			glfwPollEvents();
 		}

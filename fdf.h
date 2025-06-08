@@ -29,6 +29,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+extern GLFWwindow *window;
+
 typedef struct s_point
 {
 	float	x_3d;
@@ -51,6 +53,11 @@ typedef struct s_motion {
     float *amp;
 } t_motion;
 
+typedef struct s_camera {
+    float offset_x;
+    float offset_y;
+} t_camera;
+
 
 char		*get_next_line(int fd);
 void		get_map_size(char *filename, t_map *map);
@@ -63,7 +70,8 @@ void		center_map(t_point **points, t_map *map);
 int			get_color(t_point p);
 void		free_map(t_map *map);
 void		free_points(t_point **points, int height);
-void		render_scene(t_point **points, t_map *map, t_motion *motion, GLFWwindow *window);
+void 		render_scene(t_point **points, t_map *map, t_motion *motion, t_camera *camera, GLFWwindow *window);
+void		key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
 t_motion	*init_motion(t_point **points, t_map *map);
 void		update_and_project(t_point **pts, t_map *map, t_motion *mot, float angle);
 

@@ -19,8 +19,9 @@ void draw_line_gl(t_point p1, t_point p2) {
 	if (color_ratio > 1.0f) color_ratio = 1.0f;
 
 	glColor3f(1.0f - color_ratio, 0.4f + color_ratio * 0.6f, 1.0f);
-	glVertex2f(p1.x_3d, p1.y_3d);
-	glVertex2f(p2.x_3d, p2.y_3d);
+
+	glVertex2f(p1.sx, p1.sy);
+	glVertex2f(p2.sx, p2.sy);
 
 	glEnd();
 }

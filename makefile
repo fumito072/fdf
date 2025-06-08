@@ -11,7 +11,8 @@ SRCS = main.c \
 	projection.c \
 	draw_map_gl.c \
 	free_func.c \
-	motion.c
+	motion.c \
+	key_callback.c
 
 OBJS = $(SRCS:.c=.o)
 

@@ -13,7 +13,7 @@ t_motion *init_motion(t_point **points, t_map *map)
         for (int x = 0; x < map->width; x++) {
             int id = y * map->width + x;
 
-            mot->freq[id]  = 0.5f + ((float)rand() / RAND_MAX) * 3.0f;  // 周波数
+            mot->freq[id]  = 0.5f + ((float)rand() / RAND_MAX) * 10.0f;  // 周波数
             mot->phase[id] = ((float)rand() / RAND_MAX) * 2 * M_PI;     // 位相
             mot->amp[id]   = points[y][x].z_3d * 0.6f;                     // 振幅
             points[y][x].base_z = points[y][x].z_3d;
